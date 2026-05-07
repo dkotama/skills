@@ -1,0 +1,104 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Card from '../components/ui/Card.astro';
+import Toggle from '../components/ui/Toggle.astro';
+import Input from '../components/ui/Input.astro';
+import Select from '../components/ui/Select.astro';
+import Button from '../components/ui/Button.astro';
+import Callout from '../components/ui/Callout.astro';
+
+const themeOptions = [
+  { label: 'Light', value: '' },
+  { label: 'Dark', value: 'dark' },
+];
+const tenantOptions = [
+  { label: 'Default', value: '' },
+  { label: 'AcmeCorp (Amber)', value: 'acmecorp' },
+  { label: 'NovaTech (Purple)', value: 'novatech' },
+];
+const timezoneOptions = [
+  { label: 'UTC', value: 'UTC' },
+  { label: 'Asia/Makassar (WITA)', value: 'Asia/Makassar' },
+  { label: 'Asia/Jakarta (WIB)', value: 'Asia/Jakarta' },
+  { label: 'America/New_York (EST)', value: 'America/New_York' },
+];
+---
+<Shell title="Settings" activePage="settings">
+  <Callout intent="info" message="Settings on this page are demo-only. Changes apply to this browser session via localStorage." />
+
+  <div class="grid grid-cols-2 gap-4 mt-4">
+    <Card label="Appearance">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-tp-sm text-tp-gray mb-1">Theme</label>
+          <Select id="settings-theme" options={themeOptions} />
+        </div>
+        <div>
+          <label class="block text-tp-sm text-tp-gray mb-1">Tenant / Brand</label>
+          <Select id="settings-tenant" options={tenantOptions} />
+        </div>
+        <Button intent="primary" label="Apply Theme" />
+      </div>
+    </Card>
+
+    <Card label="General">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-tp-sm text-tp-gray mb-1">Organization Name</label>
+          <Input placeholder="Enter org name" value="Acme Manufacturing" />
+        </div>
+        <div>
+          <label class="block text-tp-sm text-tp-gray mb-1">Timezone</label>
+          <Select options={timezoneOptions} value="Asia/Makassar" />
+        </div>
+        <div>
+          <label class="block text-tp-sm text-tp-gray mb-1">Admin Email</label>
+          <Input type="email" placeholder="admin@example.com" value="admin@acme.com" />
+        </div>
+      </div>
+    </Card>
+
+    <Card label="Notifications">
+      <div class="space-y-3">
+        <Toggle id="notif-offline" label="Node offline alerts" checked={true} />
+        <Toggle id="notif-lowstock" label="Low stock alerts" checked={true} />
+        <Toggle id="notif-overdue" label="Overdue invoice reminders" checked={false} />
+        <Toggle id="notif-digest" label="Daily digest email" checked={true} />
+      </div>
+    </Card>
+
+    <Card label="Security">
+      <div class="space-y-3">
+        <Toggle id="sec-2fa" label="Two-factor authentication" checked={true} />
+        <Toggle id="sec-sso" label="SSO / SAML login" checked={false} />
+        <Toggle id="sec-audit" label="Audit log retention (90 days)" checked={true} />
+        <div class="mt-2">
+          <Button label="Rotate API Key" />
+        </div>
+      </div>
+    </Card>
+  </div>
+</Shell>
+
+<script>
+  const themeSelect = document.getElementById('settings-theme') as HTMLSelectElement | null;
+  const tenantSelect = document.getElementById('settings-tenant') as HTMLSelectElement | null;
+  if (themeSelect) {
+    themeSelect.value = document.documentElement.dataset.theme ?? '';
+    themeSelect.onchange = () => {
+      document.documentElement.dataset.theme = themeSelect.value;
+      localStorage.setItem('tp-theme', themeSelect.value);
+      const h = document.getElementById('tp-theme-select') as HTMLSelectElement | null;
+      if (h) h.value = themeSelect.value;
+    };
+  }
+  if (tenantSelect) {
+    tenantSelect.value = document.documentElement.dataset.tenant ?? '';
+    tenantSelect.onchange = () => {
+      document.documentElement.dataset.tenant = tenantSelect.value;
+      localStorage.setItem('tp-tenant', tenantSelect.value);
+      const h = document.getElementById('tp-tenant-select') as HTMLSelectElement | null;
+      if (h) h.value = tenantSelect.value;
+    };
+  }
+</script>

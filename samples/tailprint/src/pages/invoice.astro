@@ -1,0 +1,93 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Table from '../components/ui/Table.astro';
+import Badge from '../components/ui/Badge.astro';
+import Tabs from '../components/ui/Tabs.astro';
+import Modal from '../components/ui/Modal.astro';
+import Button from '../components/ui/Button.astro';
+import { invoices } from '../data/invoices';
+
+const tabs = [
+  { label: 'All', href: '/invoice' },
+  { label: 'Overdue', href: '/invoice' },
+  { label: 'Pending', href: '/invoice' },
+  { label: 'Paid', href: '/invoice' },
+];
+
+const columns = ['Invoice #','Client','Issued','Due Date','Amount','Status',''];
+
+const statusBadge: Record<string, 'online' | 'offline' | 'warning' | 'error'> = {
+  paid: 'online',
+  overdue: 'offline',
+  pending: 'warning',
+  draft: 'error',
+};
+
+const totalOverdue = invoices
+  .filter(i => i.status === 'overdue')
+  .reduce((s, i) => s + i.amount, 0);
+---
+<Shell title="Invoice / AR" activePage="invoice">
+  <div class="flex items-center justify-between mb-3">
+    <div class="text-tp-sm text-tp-gray">
+      Overdue AR: <span class="font-tp-mono tabular-nums text-tp-danger font-semibold">${totalOverdue.toLocaleString()}</span>
+    </div>
+    <Button intent="primary" label="New Invoice" />
+  </div>
+
+  <Tabs tabs={tabs} active="All" />
+
+  <Table columns={columns}>
+    {invoices.map(inv => (
+      <tr class="hover:bg-[#f0f4f7]">
+        <td class="px-2 py-1 font-tp-mono tabular-nums text-tp-dark border-r border-tp-border">{inv.id}</td>
+        <td class="px-2 py-1 text-tp-dark border-r border-tp-border">{inv.client}</td>
+        <td class="px-2 py-1 font-tp-mono text-tp-gray border-r border-tp-border">{inv.issuedDate}</td>
+        <td class={`px-2 py-1 font-tp-mono border-r border-tp-border ${inv.status === 'overdue' ? 'text-tp-danger font-semibold' : 'text-tp-gray'}`}>
+          {inv.dueDate}
+        </td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums text-right border-r border-tp-border text-tp-dark">
+          ${inv.amount.toLocaleString()}
+        </td>
+        <td class="px-2 py-1 border-r border-tp-border">
+          <Badge status={statusBadge[inv.status]} label={inv.status} />
+        </td>
+        <td class="px-2 py-1">
+          <button
+            onclick={`openModal('modal-${inv.id}')`}
+            class="h-6 px-2 rounded-tp shadow-tp-button text-tp-xs font-medium bg-white text-tp-dark"
+          >
+            View
+          </button>
+          <Modal id={`modal-${inv.id}`} title={`${inv.id} — ${inv.client}`}>
+            <div class="space-y-2 text-tp-base">
+              <div class="flex justify-between">
+                <span class="text-tp-gray">Amount</span>
+                <span class="font-tp-mono tabular-nums">${inv.amount.toLocaleString()}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-tp-gray">Issued</span>
+                <span class="font-tp-mono">{inv.issuedDate}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-tp-gray">Due</span>
+                <span class="font-tp-mono">{inv.dueDate}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-tp-gray">Status</span>
+                <Badge status={statusBadge[inv.status]} label={inv.status} />
+              </div>
+            </div>
+            <div class="mt-4 flex justify-end gap-2">
+              <button
+                onclick={`closeModal('modal-${inv.id}')`}
+                class="h-7 px-3 rounded-tp shadow-tp-button text-tp-base font-medium bg-white text-tp-dark"
+              >Close</button>
+              <Button intent="primary" label="Mark Paid" />
+            </div>
+          </Modal>
+        </td>
+      </tr>
+    ))}
+  </Table>
+</Shell>

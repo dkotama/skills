@@ -1,0 +1,67 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Table from '../components/ui/Table.astro';
+import Tabs from '../components/ui/Tabs.astro';
+import Badge from '../components/ui/Badge.astro';
+import { financeEntries } from '../data/finance';
+
+const tabs = [
+  { label: 'All Entries', href: '/finance' },
+  { label: 'Manufacturing', href: '/finance' },
+  { label: 'Logistics', href: '/finance' },
+  { label: 'Admin', href: '/finance' },
+];
+
+const columns = ['Journal ID','Date','Description','Cost Center','Type','Debit','Credit','Balance'];
+
+const totalDebit = financeEntries.reduce((s, e) => s + e.debit, 0);
+const totalCredit = financeEntries.reduce((s, e) => s + e.credit, 0);
+
+const typeBadge: Record<string, 'online' | 'offline' | 'warning' | 'error'> = {
+  sales: 'online',
+  payroll: 'warning',
+  purchase: 'offline',
+  depreciation: 'error',
+};
+---
+<Shell title="Finance / GL Journal" activePage="finance">
+  <div class="flex items-center justify-between mb-3">
+    <nav class="text-tp-sm text-tp-gray">
+      Finance <span class="mx-1">/</span>
+      <span class="text-tp-dark font-medium">GL Journal</span>
+    </nav>
+    <div class="flex gap-4 text-tp-sm">
+      <span class="text-tp-gray">Total Debit:
+        <span class="font-tp-mono tabular-nums text-tp-dark">${totalDebit.toLocaleString()}</span>
+      </span>
+      <span class="text-tp-gray">Total Credit:
+        <span class="font-tp-mono tabular-nums text-tp-success">${totalCredit.toLocaleString()}</span>
+      </span>
+    </div>
+  </div>
+
+  <Tabs tabs={tabs} active="All Entries" />
+
+  <Table columns={columns}>
+    {financeEntries.map(entry => (
+      <tr class="hover:bg-[#f0f4f7]">
+        <td class="px-2 py-1 font-tp-mono tabular-nums text-tp-dark border-r border-tp-border">{entry.id}</td>
+        <td class="px-2 py-1 font-tp-mono text-tp-gray border-r border-tp-border">{entry.date}</td>
+        <td class="px-2 py-1 text-tp-dark border-r border-tp-border">{entry.description}</td>
+        <td class="px-2 py-1 text-tp-gray border-r border-tp-border">{entry.costCenter}</td>
+        <td class="px-2 py-1 border-r border-tp-border">
+          <Badge status={typeBadge[entry.type]} label={entry.type} />
+        </td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums text-right border-r border-tp-border text-tp-danger">
+          {entry.debit > 0 ? `$${entry.debit.toLocaleString()}` : '—'}
+        </td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums text-right border-r border-tp-border text-tp-success">
+          {entry.credit > 0 ? `$${entry.credit.toLocaleString()}` : '—'}
+        </td>
+        <td class={`px-2 py-1 font-tp-mono tabular-nums text-right ${entry.balance < 0 ? 'text-tp-danger' : 'text-tp-dark'}`}>
+          ${entry.balance.toLocaleString()}
+        </td>
+      </tr>
+    ))}
+  </Table>
+</Shell>

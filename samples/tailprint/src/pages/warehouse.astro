@@ -1,0 +1,56 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Card from '../components/ui/Card.astro';
+import StatBlock from '../components/ui/StatBlock.astro';
+import ProgressBar from '../components/ui/ProgressBar.astro';
+import Badge from '../components/ui/Badge.astro';
+import { warehouseFloors } from '../data/warehouse';
+
+const allBins = warehouseFloors.flatMap(f => f.zones.flatMap(z => z.bins));
+const avgFill = Math.round(allBins.reduce((s, b) => s + b.fillPct, 0) / allBins.length);
+const totalSKUs = allBins.reduce((s, b) => s + b.skuCount, 0);
+const inactiveZones = warehouseFloors.flatMap(f => f.zones).filter(z => z.status !== 'active').length;
+
+const zoneBadge: Record<string, 'online' | 'offline' | 'warning' | 'error'> = {
+  active: 'online',
+  maintenance: 'warning',
+  locked: 'offline',
+};
+---
+<Shell title="Warehouse / Floor Map" activePage="warehouse">
+  <div class="grid grid-cols-4 gap-3 mb-4">
+    <StatBlock label="Avg Fill" value={`${avgFill}%`} delta="across all bins" trend={avgFill > 75 ? 'down' : 'up'} />
+    <StatBlock label="Total SKUs Stored" value={totalSKUs.toLocaleString()} delta="active bins" trend="up" />
+    <StatBlock label="Zones Inactive" value={String(inactiveZones)} delta="maintenance / locked" trend="down" />
+    <StatBlock label="Floors Monitored" value={String(warehouseFloors.length)} delta="warehouses" trend="up" />
+  </div>
+
+  <div class="space-y-4">
+    {warehouseFloors.map(floor => (
+      <Card label={`${floor.warehouse} — ${floor.floor}`}>
+        <div class="grid grid-cols-6 gap-2">
+          {floor.zones.slice(0, 12).map(zone => (
+            <div class="rounded-tp border border-tp-border p-2">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-tp-xs font-semibold text-tp-gray uppercase">{zone.zone}</span>
+                <Badge status={zoneBadge[zone.status]} label={zone.status} />
+              </div>
+              {zone.bins.slice(0, 4).map(bin => (
+                <div class="mb-1">
+                  <div class="flex justify-between text-tp-xs text-tp-gray mb-px">
+                    <span class="font-tp-mono">{bin.bin}</span>
+                    <span class="tabular-nums">{bin.fillPct}%</span>
+                  </div>
+                  <ProgressBar
+                    value={bin.fillPct}
+                    intent={bin.fillPct > 90 ? 'danger' : bin.fillPct > 75 ? 'warning' : 'default'}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </Card>
+    ))}
+  </div>
+</Shell>

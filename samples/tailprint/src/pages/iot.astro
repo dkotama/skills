@@ -1,0 +1,45 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Table from '../components/ui/Table.astro';
+import Badge from '../components/ui/Badge.astro';
+import Callout from '../components/ui/Callout.astro';
+import Toggle from '../components/ui/Toggle.astro';
+import ProgressBar from '../components/ui/ProgressBar.astro';
+import { iotNodes } from '../data/iot-nodes';
+
+const offlineCount = iotNodes.filter(n => n.status === 'offline').length;
+const columns = ['Node ID','Warehouse','Type','Status','Temp °C','Humidity %','Vibration g','Power W','Last Seen'];
+---
+<Shell title="IoT / Node Monitor" activePage="iot">
+  {offlineCount > 0 && (
+    <Callout intent="warning" message={`${offlineCount} nodes offline — last ping exceeded 60 min threshold`} />
+  )}
+
+  <div class="flex items-center justify-between mt-3 mb-2">
+    <h1 class="text-tp-ui font-semibold text-tp-dark">IoT Node Monitor</h1>
+    <div class="flex items-center gap-3">
+      <Toggle id="toggle-alerts" label="Live alerts" checked={true} />
+      <Toggle id="toggle-offline" label="Show offline only" />
+    </div>
+  </div>
+
+  <Table columns={columns}>
+    {iotNodes.map(node => (
+      <tr class="hover:bg-[#f0f4f7]">
+        <td class="px-2 py-1 font-tp-mono tabular-nums text-tp-dark border-r border-tp-border">{node.id}</td>
+        <td class="px-2 py-1 text-tp-gray border-r border-tp-border">{node.warehouse}</td>
+        <td class="px-2 py-1 text-tp-gray border-r border-tp-border capitalize">{node.sensorType}</td>
+        <td class="px-2 py-1 border-r border-tp-border">
+          <Badge status={node.status} />
+        </td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right">{node.temperature}</td>
+        <td class="px-2 py-1 border-r border-tp-border w-24">
+          <ProgressBar value={node.humidity} intent={node.humidity > 80 ? 'warning' : 'default'} />
+        </td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right">{node.vibration.toFixed(2)}</td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right">{node.powerDraw}</td>
+        <td class="px-2 py-1 font-tp-mono text-tp-gray text-tp-xs">{node.lastSeen}</td>
+      </tr>
+    ))}
+  </Table>
+</Shell>
