@@ -1,0 +1,39 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+---
+<div
+  id={id}
+  class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="bg-white rounded-tp shadow-tp-card w-full max-w-md p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-tp-ui font-semibold text-tp-dark">{title}</h2>
+      <button
+        onclick={`document.getElementById('${id}').classList.add('hidden')`}
+        class="text-tp-gray hover:text-tp-dark text-xl leading-none"
+        aria-label="Close"
+      >×</button>
+    </div>
+    <slot />
+  </div>
+</div>
+
+<script is:inline>
+  if (!window.__tpModalInit) {
+    window.__tpModalInit = true;
+    window.openModal = function(id) {
+      var el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    };
+    window.closeModal = function(id) {
+      var el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    };
+  }
+</script>
