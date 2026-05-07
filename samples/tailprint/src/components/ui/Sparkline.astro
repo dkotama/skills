@@ -1,0 +1,15 @@
+---
+interface Props {
+  values: number[];
+}
+const { values } = Astro.props;
+const max = Math.max(...values, 1);
+---
+<div class="flex items-end gap-px h-6">
+  {values.map(v => (
+    <div
+      class="w-1 bg-tp-primary rounded-sm"
+      style={`height: ${Math.round((v / max) * 100)}%; opacity: 0.75;`}
+    ></div>
+  ))}
+</div>

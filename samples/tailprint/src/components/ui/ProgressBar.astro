@@ -1,0 +1,16 @@
+---
+interface Props {
+  value: number; // 0–100
+  intent?: 'default' | 'warning' | 'danger';
+}
+const { value, intent = 'default' } = Astro.props;
+const clamped = Math.min(100, Math.max(0, value));
+const barClass = intent === 'danger'
+  ? 'bg-tp-danger'
+  : intent === 'warning'
+  ? 'bg-tp-warning'
+  : 'bg-tp-primary';
+---
+<div class="h-2 bg-[#ebf1f5] rounded-tp overflow-hidden">
+  <div class={`h-full rounded-tp ${barClass}`} style={`width: ${clamped}%`}></div>
+</div>

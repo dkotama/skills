@@ -1,0 +1,21 @@
+---
+interface Props {
+  tabs: { label: string; href: string }[];
+  active: string;
+}
+const { tabs, active } = Astro.props;
+---
+<div class="flex border-b border-tp-border mb-4">
+  {tabs.map(tab => (
+    <a
+      href={tab.href}
+      class={`px-4 py-2 text-tp-base transition-none border-b-2 -mb-px ${
+        tab.label === active
+          ? 'border-tp-primary text-tp-primary font-medium'
+          : 'border-transparent text-tp-gray hover:text-tp-dark'
+      }`}
+    >
+      {tab.label}
+    </a>
+  ))}
+</div>
