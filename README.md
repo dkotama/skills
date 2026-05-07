@@ -4,7 +4,9 @@
 [![Skills](https://badgen.net/badge/skills/1/purple)](https://dkotama.github.io/skills)
 [![Stars](https://badgen.net/github/stars/dkotama/skills)](https://github.com/dkotama/skills/stargazers)
 
-Curated Claude Code skills handcrafted by I Nyoman Darma Kotama.
+Curated skills for **Claude Code** and **OpenCode** — handcrafted by I Nyoman Darma Kotama.
+
+Skills are self-contained agent instructions that load into your AI coding assistant's context. Currently focused on frontend UI systems, starting with a **Tailwind CSS Blueprint aesthetic** design system for professional admin and ERP interfaces.
 
 **Showcase site:** https://dkotama.github.io/skills
 
@@ -31,9 +33,9 @@ Then browse and install individual skills:
 
 ### tailprint-builder
 
-Build high-density, professional UI pages using the TailPrint design system — Blueprint aesthetic via Tailwind CSS. No BlueprintJS dependency.
+**Blueprint.js aesthetic using only Tailwind CSS** — no BlueprintJS dependency.
 
-Target use cases: ERP dashboards, IoT monitoring, accounting, warehouse management.
+TailPrint is a Tailwind CSS design system that replicates the high-density, industrial look of Blueprint.js. Built for professional admin UIs: ERP dashboards, IoT monitoring, accounting, and warehouse management. Charts via ApexCharts (CDN). Supports multi-tenant theming and dark mode.
 
 ```
 /plugin install tailprint-builder@dkotama-skills
@@ -56,7 +58,7 @@ skills/
     tailprint-builder.md    skill source (self-contained)
 
 samples/
-  tailprint/                Next.js reference app (coming soon)
+  tailprint/                Astro sample app
 
 docs/                       GitHub Pages root
   index.html                marketplace home

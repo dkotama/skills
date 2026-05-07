@@ -3,8 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TailPrint Builder — dkotama/skills</title>
-  <meta name="description" content="Build high-density, professional UI pages using the TailPrint design system — Blueprint aesthetic via Tailwind CSS. No BlueprintJS dependency." />
+  <title>TailPrint Builder — Blueprint Aesthetic with Tailwind CSS | dkotama/skills</title>
+  <meta name="description" content="Build high-density ERP, IoT, and admin dashboards with TailPrint — Blueprint.js aesthetic using only Tailwind CSS. No BlueprintJS dependency. Free Claude Code &amp; OpenCode skill." />
+  <meta name="keywords" content="tailprint, blueprint.js alternative, tailwind blueprint, blueprint css tailwind, tailwind erp dashboard, high density admin dashboard tailwind, claude code skill, opencode skill, tailwind design system, apexcharts tailwind" />
+  <meta name="author" content="I Nyoman Darma Kotama" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://dkotama.github.io/skills/plugins/tailprint-builder/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://dkotama.github.io/skills/plugins/tailprint-builder/" />
+  <meta property="og:title" content="TailPrint Builder — Blueprint Aesthetic with Tailwind CSS" />
+  <meta property="og:description" content="Build high-density ERP, IoT, and admin dashboards with TailPrint — Blueprint.js aesthetic using only Tailwind CSS. No BlueprintJS dependency." />
+  <meta property="og:site_name" content="dkotama/skills" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="TailPrint Builder — Blueprint Aesthetic with Tailwind CSS" />
+  <meta name="twitter:description" content="High-density ERP and admin dashboards using only Tailwind CSS. Blueprint.js look, zero dependency." />
+
   <link rel="stylesheet" href="../../assets/style.css" />
 </head>
 <body>
@@ -71,6 +88,7 @@
     <ul>
       <li>Provides the complete token system: Blueprint color scale, inset box-shadows, 3px border radius, tabular numerals</li>
       <li>Delivers 21 component recipes covering tables, badges, cards, sidebars, inputs, modals, callouts, and more</li>
+      <li>Charts via <strong>ApexCharts</strong> (CDN, no npm install) — pre-configured with TailPrint tokens and IBM Plex Sans</li>
       <li>Supports multi-tenant theming and dark mode via CSS variables — a single <code class="inline">data-tenant</code> attribute re-themes the entire app</li>
       <li>Targets 25 rows × 8 columns visible at 1080p without scrolling — true data density, not marketing</li>
       <li>AI-native docs: the skill loads all component rules and anti-patterns into context so Claude can generate correct TailPrint pages on the first attempt</li>
@@ -114,12 +132,12 @@
   <!-- Preview -->
   <div class="content-section">
     <h2>Preview</h2>
-    <p>Screenshots from the reference sample app — a 7-page Next.js app demonstrating every TailPrint component in realistic ERP/IoT contexts.</p>
+    <p>Screenshots from the reference sample app — an Astro app demonstrating TailPrint components in realistic ERP/IoT contexts. Click to enlarge.</p>
     <div class="preview-gallery">
-      <img class="preview-img" src="preview/dashboards.png" alt="TailPrint dashboard" />
-      <img class="preview-img" src="preview/charts.png" alt="TailPrint charts" />
-      <img class="preview-img" src="preview/invoice.png" alt="TailPrint invoice" />
-      <img class="preview-img" src="preview/setting.png" alt="TailPrint settings" />
+      <img class="preview-img" src="preview/dashboards.png" alt="TailPrint dashboard" onclick="openLightbox(this)" style="cursor:zoom-in" />
+      <img class="preview-img" src="preview/charts.png" alt="TailPrint charts" onclick="openLightbox(this)" style="cursor:zoom-in" />
+      <img class="preview-img" src="preview/invoice.png" alt="TailPrint invoice" onclick="openLightbox(this)" style="cursor:zoom-in" />
+      <img class="preview-img" src="preview/setting.png" alt="TailPrint settings" onclick="openLightbox(this)" style="cursor:zoom-in" />
     </div>
     <p style="font-size:12px;color:var(--tp-gray);margin-top:12px">
       Sample app source: <a href="https://github.com/dkotama/skills/tree/main/samples/tailprint" style="color:var(--tp-primary)">samples/tailprint</a>
@@ -129,45 +147,10 @@
   <!-- Design docs -->
   <div class="content-section">
     <h2>Design Docs</h2>
-    <p>The full TailPrint specification — token system, typography, theming, layout, and all 21 component docs — lives in <code class="inline">design-guideline/</code> in the main tailprint repository.</p>
-
-    <details>
-      <summary>Core Docs</summary>
-      <div class="doc-list">
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/00-overview.md" target="_blank" rel="noopener">00-overview.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/01-tokens.md" target="_blank" rel="noopener">01-tokens.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/02-typography.md" target="_blank" rel="noopener">02-typography.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/03-theming.md" target="_blank" rel="noopener">03-theming.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/04-layout.md" target="_blank" rel="noopener">04-layout.md</a>
-      </div>
-    </details>
-
-    <details>
-      <summary>Component Docs (21 components)</summary>
-      <div class="doc-list">
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/table.md" target="_blank" rel="noopener">components/table.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/sidebar.md" target="_blank" rel="noopener">components/sidebar.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/top-header.md" target="_blank" rel="noopener">components/top-header.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/button.md" target="_blank" rel="noopener">components/button.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/input.md" target="_blank" rel="noopener">components/input.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/select.md" target="_blank" rel="noopener">components/select.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/badge.md" target="_blank" rel="noopener">components/badge.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/card.md" target="_blank" rel="noopener">components/card.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/stat-block.md" target="_blank" rel="noopener">components/stat-block.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/callout.md" target="_blank" rel="noopener">components/callout.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/modal.md" target="_blank" rel="noopener">components/modal.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/tabs.md" target="_blank" rel="noopener">components/tabs.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/breadcrumb.md" target="_blank" rel="noopener">components/breadcrumb.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/checkbox.md" target="_blank" rel="noopener">components/checkbox.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/toggle.md" target="_blank" rel="noopener">components/toggle.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/progress-bar.md" target="_blank" rel="noopener">components/progress-bar.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/skeleton.md" target="_blank" rel="noopener">components/skeleton.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/timeline.md" target="_blank" rel="noopener">components/timeline.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/tooltip.md" target="_blank" rel="noopener">components/tooltip.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/sparkline-hint.md" target="_blank" rel="noopener">components/sparkline-hint.md</a>
-        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/stat-block.md" target="_blank" rel="noopener">components/stat-block.md</a>
-      </div>
-    </details>
+    <p>The full TailPrint specification — token system, typography, theming, layout, and all 21 component recipes — is embedded directly in the skill file. When you invoke the skill, the entire spec loads into your agent's context.</p>
+    <p>
+      <a href="https://github.com/dkotama/skills/blob/master/skills/tailprint-builder/tailprint-builder.md" target="_blank" rel="noopener" style="color:var(--tp-primary)">View skill source on GitHub →</a>
+    </p>
   </div>
 
   <!-- Source & changelog -->
@@ -211,6 +194,11 @@
   </div>
 </footer>
 
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()" style="display:none;position:fixed;inset:0;background:rgba(16,22,26,0.85);z-index:999;align-items:center;justify-content:center;cursor:zoom-out">
+  <img id="lightbox-img" src="" alt="" style="max-width:90vw;max-height:90vh;border-radius:3px;box-shadow:0 8px 32px rgba(0,0,0,0.5)" />
+</div>
+
 <script>
 function copyCode(btn, text) {
   navigator.clipboard.writeText(text).then(() => {
@@ -219,6 +207,17 @@ function copyCode(btn, text) {
     setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
   });
 }
+function openLightbox(img) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = img.src;
+  lb.style.display = 'flex';
+  document.addEventListener('keydown', onLightboxKey);
+}
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.removeEventListener('keydown', onLightboxKey);
+}
+function onLightboxKey(e) { if (e.key === 'Escape') closeLightbox(); }
 </script>
 
 </body>
