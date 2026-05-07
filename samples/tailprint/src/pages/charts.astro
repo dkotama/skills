@@ -1,0 +1,145 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Card from '../components/ui/Card.astro';
+import StatBlock from '../components/ui/StatBlock.astro';
+import { iotNodes } from '../data/iot-nodes';
+import { inventory } from '../data/inventory';
+import { financeEntries } from '../data/finance';
+import { invoices } from '../data/invoices';
+
+// IoT: count per warehouse per status
+const whs = ['WH-A', 'WH-B', 'WH-C'];
+const iotChart = {
+  categories: whs,
+  online:  whs.map(w => iotNodes.filter(n => n.warehouse === w && n.status === 'online').length),
+  warning: whs.map(w => iotNodes.filter(n => n.warehouse === w && n.status === 'warning').length),
+  offline: whs.map(w => iotNodes.filter(n => n.warehouse === w && n.status === 'offline').length),
+};
+
+// Inventory: total qty per category
+const cats = ['Electronics','Mechanical','Chemical','Textile','Packaging','Tools','Safety','Office'];
+const invChart = {
+  categories: cats,
+  totalQty: cats.map(c => inventory.filter(i => i.category === c).reduce((s, i) => s + i.qty, 0)),
+  lowStock: cats.map(c => inventory.filter(i => i.category === c && i.qty < i.reorderPoint).length),
+};
+
+// Finance: debit vs credit per cost center
+const centers = ['Manufacturing', 'Logistics', 'Admin'];
+const finChart = {
+  categories: centers,
+  debit:  centers.map(c => Math.round(financeEntries.filter(e => e.costCenter === c).reduce((s, e) => s + e.debit, 0))),
+  credit: centers.map(c => Math.round(financeEntries.filter(e => e.costCenter === c).reduce((s, e) => s + e.credit, 0))),
+};
+
+// Invoice AR aging: count per status
+const arChart = {
+  labels: ['Paid', 'Overdue', 'Pending', 'Draft'],
+  series: [
+    invoices.filter(i => i.status === 'paid').length,
+    invoices.filter(i => i.status === 'overdue').length,
+    invoices.filter(i => i.status === 'pending').length,
+    invoices.filter(i => i.status === 'draft').length,
+  ],
+};
+
+// Summary stats
+const totalNodes = iotNodes.length;
+const onlineNodes = iotNodes.filter(n => n.status === 'online').length;
+const totalSkus = inventory.length;
+const lowStockSkus = inventory.filter(i => i.qty < i.reorderPoint).length;
+const totalAR = invoices.filter(i => i.status !== 'paid').reduce((s, i) => s + i.amount, 0);
+const overdueAR = invoices.filter(i => i.status === 'overdue').reduce((s, i) => s + i.amount, 0);
+---
+<Shell title="Analytics / Charts" activePage="charts">
+  <div class="grid grid-cols-4 gap-3 mb-4">
+    <StatBlock label="Nodes Online" value={`${onlineNodes}/${totalNodes}`} delta="sensor health" trend="up" />
+    <StatBlock label="Low Stock SKUs" value={String(lowStockSkus)} delta={`of ${totalSkus} total`} trend="down" />
+    <StatBlock label="Open AR" value={`$${totalAR.toLocaleString()}`} delta="outstanding" trend="up" />
+    <StatBlock label="Overdue AR" value={`$${overdueAR.toLocaleString()}`} delta="past due" trend="down" />
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <Card label="IoT Node Status by Warehouse">
+      <div id="chart-iot" class="h-56"></div>
+    </Card>
+
+    <Card label="Inventory Qty by Category">
+      <div id="chart-inventory" class="h-56"></div>
+    </Card>
+
+    <Card label="Finance: Debit vs Credit by Cost Center">
+      <div id="chart-finance" class="h-56"></div>
+    </Card>
+
+    <Card label="Invoice AR Aging">
+      <div id="chart-ar" class="h-56"></div>
+    </Card>
+  </div>
+</Shell>
+
+<script is:inline define:vars={{ iotChart, invChart, finChart, arChart }}>
+  const tpFont = '"IBM Plex Sans", system-ui, sans-serif';
+  const tpMono = '"IBM Plex Mono", monospace';
+  const tpGrid = { borderColor: '#d8e1e8', strokeDashArray: 3 };
+  const tpToolbar = { show: false };
+
+  // IoT Status — horizontal grouped bar
+  new ApexCharts(document.getElementById('chart-iot'), {
+    chart: { type: 'bar', height: 224, fontFamily: tpFont, toolbar: tpToolbar },
+    plotOptions: { bar: { horizontal: true, dataLabels: { position: 'top' } } },
+    series: [
+      { name: 'Online',  data: iotChart.online },
+      { name: 'Warning', data: iotChart.warning },
+      { name: 'Offline', data: iotChart.offline },
+    ],
+    xaxis: { categories: iotChart.categories, labels: { style: { fontSize: '11px', fontFamily: tpFont } } },
+    colors: ['#0f9960', '#d9822b', '#db3737'],
+    grid: tpGrid,
+    dataLabels: { enabled: false },
+    legend: { fontSize: '12px', fontFamily: tpFont },
+  }).render();
+
+  // Inventory by Category — vertical grouped bar
+  new ApexCharts(document.getElementById('chart-inventory'), {
+    chart: { type: 'bar', height: 224, fontFamily: tpFont, toolbar: tpToolbar },
+    series: [
+      { name: 'Total Qty', data: invChart.totalQty },
+      { name: 'Low Stock', data: invChart.lowStock },
+    ],
+    xaxis: {
+      categories: invChart.categories,
+      labels: { rotate: -30, style: { fontSize: '10px', fontFamily: tpFont } },
+    },
+    colors: ['#137cbd', '#db3737'],
+    grid: tpGrid,
+    dataLabels: { enabled: false },
+    legend: { fontSize: '12px', fontFamily: tpFont },
+  }).render();
+
+  // Finance — grouped bar debit vs credit
+  new ApexCharts(document.getElementById('chart-finance'), {
+    chart: { type: 'bar', height: 224, fontFamily: tpFont, toolbar: tpToolbar },
+    series: [
+      { name: 'Debit',  data: finChart.debit },
+      { name: 'Credit', data: finChart.credit },
+    ],
+    xaxis: { categories: finChart.categories, labels: { style: { fontSize: '11px', fontFamily: tpFont } } },
+    colors: ['#db3737', '#0f9960'],
+    grid: tpGrid,
+    dataLabels: { enabled: false },
+    yaxis: { labels: { formatter: function(v) { return '$' + v.toLocaleString(); }, style: { fontSize: '11px', fontFamily: tpMono } } },
+    legend: { fontSize: '12px', fontFamily: tpFont },
+  }).render();
+
+  // Invoice AR — donut
+  new ApexCharts(document.getElementById('chart-ar'), {
+    chart: { type: 'donut', height: 224, fontFamily: tpFont },
+    series: arChart.series,
+    labels: arChart.labels,
+    colors: ['#0f9960', '#db3737', '#d9822b', '#5c7080'],
+    legend: { position: 'bottom', fontSize: '12px', fontFamily: tpFont },
+    dataLabels: { style: { fontSize: '11px', fontFamily: tpFont } },
+    plotOptions: { pie: { donut: { size: '60%' } } },
+  }).render();
+</script>
