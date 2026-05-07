@@ -1,0 +1,38 @@
+---
+interface Props {
+  activePage: string;
+}
+const { activePage } = Astro.props;
+
+const navItems = [
+  { label: 'Dashboard',    href: '/',           key: 'dashboard' },
+  { label: 'IoT Monitor',  href: '/iot',         key: 'iot' },
+  { label: 'Inventory',    href: '/inventory',   key: 'inventory' },
+  { label: 'Finance',      href: '/finance',     key: 'finance' },
+  { label: 'Warehouse',    href: '/warehouse',   key: 'warehouse' },
+  { label: 'Invoice / AR', href: '/invoice',     key: 'invoice' },
+  { label: 'Settings',     href: '/settings',    key: 'settings' },
+];
+---
+<nav
+  class="w-52 h-screen flex flex-col flex-shrink-0 overflow-hidden"
+  style="background-color: var(--tp-sidebar-bg); color: var(--tp-sidebar-text);"
+>
+  <div class="h-10 flex items-center px-4 border-b border-white/10 font-semibold text-tp-base flex-shrink-0">
+    TailPrint
+  </div>
+  <div class="flex-1 overflow-y-auto py-2">
+    {navItems.map(item => (
+      <a
+        href={item.href}
+        class={`flex items-center px-3 py-1.5 text-tp-base transition-none ${
+          activePage === item.key
+            ? 'bg-tp-primary text-white'
+            : 'hover:bg-white/10'
+        }`}
+      >
+        {item.label}
+      </a>
+    ))}
+  </div>
+</nav>
