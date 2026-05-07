@@ -3,7 +3,7 @@ interface Props {
   placeholder?: string;
   value?: string;
   name?: string;
-  type?: string;
+  type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url';
   id?: string;
 }
 const { placeholder, value, name, type = 'text', id } = Astro.props;
