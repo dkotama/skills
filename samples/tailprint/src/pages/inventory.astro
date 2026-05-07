@@ -1,12 +1,25 @@
 ---
 import Shell from '../layouts/Shell.astro';
 import Table from '../components/ui/Table.astro';
+import type { ColumnDef } from '../components/ui/Table.astro';
 import Badge from '../components/ui/Badge.astro';
 import Input from '../components/ui/Input.astro';
 import Select from '../components/ui/Select.astro';
 import { inventory } from '../data/inventory';
 
-const columns = ['','SKU','Name','Category','Warehouse','Zone','Bin','Qty','Reorder Pt','Unit Cost','Status'];
+const columns: (string | ColumnDef)[] = [
+  '',
+  { label: 'SKU',        sortType: 'string' },
+  'Name',
+  'Category',
+  'Warehouse',
+  'Zone',
+  'Bin',
+  { label: 'Qty',        sortType: 'number' },
+  { label: 'Reorder Pt', sortType: 'number' },
+  { label: 'Unit Cost',  sortType: 'number' },
+  'Status',
+];
 
 const categoryOptions = [
   { label: 'All Categories', value: '' },
@@ -21,30 +34,36 @@ const warehouseOptions = [
 ---
 <Shell title="Inventory / Stock Ledger" activePage="inventory">
   <div class="flex items-center gap-2 mb-3">
-    <Input placeholder="Search SKU or name…" />
-    <Select options={categoryOptions} />
-    <Select options={warehouseOptions} />
+    <Input id="inv-search" placeholder="Search SKU or name…" />
+    <Select id="inv-category" options={categoryOptions} />
+    <Select id="inv-warehouse" options={warehouseOptions} />
   </div>
 
-  <Table columns={columns}>
+  <Table id="inv-table" columns={columns}>
     {inventory.map(item => {
       const belowReorder = item.qty < item.reorderPoint;
       return (
-        <tr class="hover:bg-[#f0f4f7]">
+        <tr
+          class="hover:bg-[#f0f4f7]"
+          data-sku={item.sku.toLowerCase()}
+          data-name={item.name.toLowerCase()}
+          data-category={item.category}
+          data-warehouse={item.warehouse}
+        >
           <td class="px-2 py-1 border-r border-tp-border w-6">
             <input type="checkbox" class="w-3 h-3" />
           </td>
-          <td class="px-2 py-1 font-tp-mono tabular-nums text-tp-dark border-r border-tp-border">{item.sku}</td>
+          <td class="px-2 py-1 font-tp-mono tabular-nums text-tp-dark border-r border-tp-border" data-sort-value={item.sku}>{item.sku}</td>
           <td class="px-2 py-1 text-tp-dark border-r border-tp-border whitespace-nowrap">{item.name}</td>
           <td class="px-2 py-1 text-tp-gray border-r border-tp-border">{item.category}</td>
           <td class="px-2 py-1 text-tp-gray border-r border-tp-border">{item.warehouse}</td>
           <td class="px-2 py-1 text-tp-gray border-r border-tp-border">{item.zone}</td>
           <td class="px-2 py-1 font-tp-mono text-tp-gray border-r border-tp-border">{item.bin}</td>
-          <td class={`px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right ${belowReorder ? 'text-tp-danger font-semibold' : 'text-tp-dark'}`}>
+          <td class={`px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right ${belowReorder ? 'text-tp-danger font-semibold' : 'text-tp-dark'}`} data-sort-value={item.qty}>
             {item.qty.toLocaleString()}
           </td>
-          <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right text-tp-gray">{item.reorderPoint}</td>
-          <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right">${item.unitCost.toFixed(2)}</td>
+          <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right text-tp-gray" data-sort-value={item.reorderPoint}>{item.reorderPoint}</td>
+          <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right" data-sort-value={item.unitCost}>${item.unitCost.toFixed(2)}</td>
           <td class="px-2 py-1">
             {belowReorder
               ? <Badge status="warning" label="Low Stock" />
@@ -55,3 +74,31 @@ const warehouseOptions = [
     })}
   </Table>
 </Shell>
+
+<script>
+  import { initSortableTable } from '../lib/sort-table';
+
+  const searchInput = document.getElementById('inv-search') as HTMLInputElement | null;
+  const categorySelect = document.getElementById('inv-category') as HTMLSelectElement | null;
+  const warehouseSelect = document.getElementById('inv-warehouse') as HTMLSelectElement | null;
+  const tbody = document.querySelector('#inv-table tbody');
+
+  function applyFilters() {
+    const q = searchInput?.value.toLowerCase() ?? '';
+    const cat = categorySelect?.value ?? '';
+    const wh = warehouseSelect?.value ?? '';
+
+    tbody?.querySelectorAll<HTMLTableRowElement>('tr').forEach(row => {
+      const matchQ = !q || (row.dataset.sku ?? '').includes(q) || (row.dataset.name ?? '').includes(q);
+      const matchCat = !cat || row.dataset.category === cat;
+      const matchWh = !wh || row.dataset.warehouse === wh;
+      row.style.display = matchQ && matchCat && matchWh ? '' : 'none';
+    });
+  }
+
+  searchInput?.addEventListener('input', applyFilters);
+  categorySelect?.addEventListener('change', applyFilters);
+  warehouseSelect?.addEventListener('change', applyFilters);
+
+  initSortableTable('inv-table');
+</script>
