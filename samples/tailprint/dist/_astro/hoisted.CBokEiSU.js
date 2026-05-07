@@ -1,1 +1,0 @@
-const e=document.getElementById("tp-theme-select"),t=document.getElementById("tp-tenant-select");e&&(e.value=document.documentElement.dataset.theme??"");t&&(t.value=document.documentElement.dataset.tenant??"");
