@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TailPrint Builder — dkotama/skills</title>
+  <meta name="description" content="Build high-density, professional UI pages using the TailPrint design system — Blueprint aesthetic via Tailwind CSS. No BlueprintJS dependency." />
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="../../" class="nav-brand">
+    <img src="../../assets/logo.svg" alt="dkotama/skills" height="20" style="vertical-align:middle;margin-right:4px" />
+  </a>
+  <a href="../../">Home</a>
+  <div class="nav-spacer"></div>
+  <a href="https://github.com/dkotama/skills" class="nav-github" target="_blank" rel="noopener">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="rgba(245,248,250,0.65)">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+    </svg>
+    GitHub
+  </a>
+</nav>
+
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="../../">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>TailPrint Builder</span>
+  </div>
+
+  <!-- Plugin hero -->
+  <div class="plugin-hero">
+    <h1>TailPrint Builder</h1>
+    <div class="plugin-meta">
+      <span class="version-badge">v1.0.0</span>
+      <span class="badge badge-frontend">Frontend</span>
+    </div>
+    <p class="plugin-tagline">Build high-density, professional UI pages using the TailPrint design system — Blueprint aesthetic via Tailwind CSS. No BlueprintJS dependency.</p>
+
+    <div class="install-box">
+      <div class="box-label">Install</div>
+      <div class="code-block">
+        <code>/plugin install tailprint-builder@dkotama-skills</code>
+        <button class="copy-btn" onclick="copyCode(this, '/plugin install tailprint-builder@dkotama-skills')">Copy</button>
+      </div>
+      <p class="prereq-note">
+        Requires marketplace to be added first:
+        <code style="color:rgba(245,248,250,0.55);font-family:'IBM Plex Mono',monospace;font-size:11px">
+          /plugin marketplace add dkotama/skills
+        </code>
+        — <a href="../../#getting-started">setup guide</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- What it does -->
+  <div class="content-section">
+    <h2>What It Does</h2>
+    <p>TailPrint replicates the visual DNA of <strong>BlueprintJS</strong> — the high-density, professional, industrial aesthetic used by ERP, IoT monitoring, and accounting tools — using only <strong>Tailwind CSS</strong>. No BlueprintJS package. No React dependency in the design layer. Just portable class recipes.</p>
+    <ul>
+      <li>Provides the complete token system: Blueprint color scale, inset box-shadows, 3px border radius, tabular numerals</li>
+      <li>Delivers 21 component recipes covering tables, badges, cards, sidebars, inputs, modals, callouts, and more</li>
+      <li>Supports multi-tenant theming and dark mode via CSS variables — a single <code class="inline">data-tenant</code> attribute re-themes the entire app</li>
+      <li>Targets 25 rows × 8 columns visible at 1080p without scrolling — true data density, not marketing</li>
+      <li>AI-native docs: the skill loads all component rules and anti-patterns into context so Claude can generate correct TailPrint pages on the first attempt</li>
+    </ul>
+  </div>
+
+  <!-- When to use -->
+  <div class="content-section">
+    <h2>When to Use</h2>
+    <ul>
+      <li>Building professional admin dashboards, ERP screens, or IoT monitoring UIs</li>
+      <li>Replacing BlueprintJS with a Tailwind-only implementation to reduce bundle size</li>
+      <li>When your users are professionals who prefer data density over generous whitespace</li>
+      <li>Multi-tenant SaaS apps where each tenant needs its own brand accent without a full design overhaul</li>
+    </ul>
+  </div>
+
+  <!-- How to use -->
+  <div class="content-section">
+    <h2>How to Use</h2>
+    <p>After installing the plugin, invoke it in Claude Code and describe the page you want to build. Example prompts:</p>
+
+    <div class="usage-example">
+      "Build a dashboard page using TailPrint with a sidebar, a stats grid showing 4 KPIs, and a data table of recent transactions."
+    </div>
+
+    <div class="usage-example">
+      "Create an IoT node monitor page — TailPrint style — with a status table showing 48 sensor nodes, badge indicators for online/warning/offline, and a callout for critical alerts."
+    </div>
+
+    <div class="usage-example">
+      "Build a stock ledger in TailPrint with filters, a 200-row inventory table with SKU, qty, reorder threshold columns, and badge indicators when stock is below reorder point."
+    </div>
+
+    <p>Invoke the skill directly with:</p>
+    <div class="invoke-command">/tailprint-builder:tailprint-builder</div>
+
+    <p>The skill loads the full TailPrint token system, component recipes, anti-patterns, and layout rules into context before generating any code.</p>
+  </div>
+
+  <!-- Preview -->
+  <div class="content-section">
+    <h2>Preview</h2>
+    <p>Screenshots from the reference sample app — a 7-page Next.js app demonstrating every TailPrint component in realistic ERP/IoT contexts.</p>
+    <div class="preview-gallery">
+      <div class="preview-placeholder">
+        <span>dashboard.png</span>
+        <span style="color:#a0adb5">Coming soon</span>
+      </div>
+      <div class="preview-placeholder">
+        <span>iot-monitor.png</span>
+        <span style="color:#a0adb5">Coming soon</span>
+      </div>
+      <div class="preview-placeholder">
+        <span>inventory.png</span>
+        <span style="color:#a0adb5">Coming soon</span>
+      </div>
+      <div class="preview-placeholder">
+        <span>finance.png</span>
+        <span style="color:#a0adb5">Coming soon</span>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--tp-gray);margin-top:12px">
+      Sample app source: <a href="https://github.com/dkotama/skills/tree/main/samples/tailprint" style="color:var(--tp-primary)">samples/tailprint</a>
+    </p>
+  </div>
+
+  <!-- Design docs -->
+  <div class="content-section">
+    <h2>Design Docs</h2>
+    <p>The full TailPrint specification — token system, typography, theming, layout, and all 21 component docs — lives in <code class="inline">design-guideline/</code> in the main tailprint repository.</p>
+
+    <details>
+      <summary>Core Docs</summary>
+      <div class="doc-list">
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/00-overview.md" target="_blank" rel="noopener">00-overview.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/01-tokens.md" target="_blank" rel="noopener">01-tokens.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/02-typography.md" target="_blank" rel="noopener">02-typography.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/03-theming.md" target="_blank" rel="noopener">03-theming.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/04-layout.md" target="_blank" rel="noopener">04-layout.md</a>
+      </div>
+    </details>
+
+    <details>
+      <summary>Component Docs (21 components)</summary>
+      <div class="doc-list">
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/table.md" target="_blank" rel="noopener">components/table.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/sidebar.md" target="_blank" rel="noopener">components/sidebar.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/top-header.md" target="_blank" rel="noopener">components/top-header.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/button.md" target="_blank" rel="noopener">components/button.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/input.md" target="_blank" rel="noopener">components/input.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/select.md" target="_blank" rel="noopener">components/select.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/badge.md" target="_blank" rel="noopener">components/badge.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/card.md" target="_blank" rel="noopener">components/card.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/stat-block.md" target="_blank" rel="noopener">components/stat-block.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/callout.md" target="_blank" rel="noopener">components/callout.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/modal.md" target="_blank" rel="noopener">components/modal.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/tabs.md" target="_blank" rel="noopener">components/tabs.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/breadcrumb.md" target="_blank" rel="noopener">components/breadcrumb.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/checkbox.md" target="_blank" rel="noopener">components/checkbox.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/toggle.md" target="_blank" rel="noopener">components/toggle.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/progress-bar.md" target="_blank" rel="noopener">components/progress-bar.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/skeleton.md" target="_blank" rel="noopener">components/skeleton.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/timeline.md" target="_blank" rel="noopener">components/timeline.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/tooltip.md" target="_blank" rel="noopener">components/tooltip.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/sparkline-hint.md" target="_blank" rel="noopener">components/sparkline-hint.md</a>
+        <a href="https://github.com/dkotama/tailprint/blob/main/design-guideline/components/stat-block.md" target="_blank" rel="noopener">components/stat-block.md</a>
+      </div>
+    </details>
+  </div>
+
+  <!-- Source & changelog -->
+  <div class="content-section">
+    <h2>Source &amp; Changelog</h2>
+    <p>
+      Skill source:
+      <a href="https://github.com/dkotama/skills/tree/main/skills/tailprint-builder" style="color:var(--tp-primary)">skills/tailprint-builder/</a>
+    </p>
+
+    <table class="version-table">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Date</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1.0.0</td>
+          <td>2026-05-07</td>
+          <td style="font-family:'IBM Plex Sans',sans-serif;font-size:12px">Initial release — 21 components, full token system, multi-tenant theming</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span>© 2026 I Nyoman Darma Kotama · Last updated 2026-05-07</span>
+      <div class="footer-links">
+        <a href="../../">← All Plugins</a>
+        <a href="https://github.com/dkotama/skills" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/dkotama/skills/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function copyCode(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
