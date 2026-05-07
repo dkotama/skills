@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Font faces ── */
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/600.css';
+
+/* ── Layer 2 tokens: theme + tenant overridable ── */
+:root {
+  --tp-accent:       #137cbd;
+  --tp-accent-dark:  #106ba3;
+  --tp-accent-text:  #ffffff;
+  --tp-surface:      #f5f8fa;
+  --tp-sidebar-bg:   #30404d;
+  --tp-sidebar-text: #f5f8fa;
+}
+
+[data-theme="dark"] {
+  --tp-surface:    #293742;
+  --tp-sidebar-bg: #1c252b;
+  --tp-accent:     #2b95d6;
+}
+
+[data-tenant="novatech"] {
+  --tp-accent:      #7b3fa0;
+  --tp-accent-dark: #6b2fa0;
+  --tp-sidebar-bg:  #2d1f38;
+}
+
+[data-tenant="acmecorp"] {
+  --tp-accent:      #bf7326;
+  --tp-accent-dark: #a05a20;
+  --tp-sidebar-bg:  #3d2b1f;
+}
