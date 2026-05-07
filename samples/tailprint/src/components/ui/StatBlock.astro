@@ -1,0 +1,18 @@
+---
+interface Props {
+  label: string;
+  value: string;
+  delta?: string;
+  trend?: 'up' | 'down';
+}
+const { label, value, delta, trend } = Astro.props;
+const trendClass = trend === 'up' ? 'text-tp-success' : 'text-tp-danger';
+const arrow = trend === 'up' ? '↑' : '↓';
+---
+<div class="shadow-tp-card rounded-tp bg-white p-4">
+  <div class="text-tp-xs text-tp-gray uppercase tracking-wider mb-1 font-semibold">{label}</div>
+  <div class="text-2xl font-semibold font-tp-mono tabular-nums text-tp-dark">{value}</div>
+  {delta && (
+    <div class={`text-tp-xs mt-1 ${trendClass}`}>{arrow} {delta}</div>
+  )}
+</div>

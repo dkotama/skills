@@ -1,0 +1,16 @@
+---
+interface Props {
+  status: 'online' | 'offline' | 'warning' | 'error';
+  label?: string;
+}
+const { status, label } = Astro.props;
+const styles: Record<string, string> = {
+  online:  'bg-[#d5eae2] text-tp-success',
+  offline: 'bg-[#fbeae5] text-tp-danger',
+  warning: 'bg-[#fef3e2] text-tp-warning',
+  error:   'bg-[#fbeae5] text-tp-danger',
+};
+---
+<span class={`inline-flex items-center px-1.5 py-0.5 rounded-tp text-tp-xs font-semibold ${styles[status]}`}>
+  {label ?? status}
+</span>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  intent: 'success' | 'danger' | 'warning' | 'info';
+  message: string;
+}
+const { intent, message } = Astro.props;
+const styles: Record<string, string> = {
+  success: 'bg-[#d5eae2] text-tp-success border-tp-success',
+  danger:  'bg-[#fbeae5] text-tp-danger border-tp-danger',
+  warning: 'bg-[#fef3e2] text-tp-warning border-tp-warning',
+  info:    'bg-[#e8f4fb] text-[#137cbd] border-[#137cbd]',
+};
+---
+<div class={`p-3 rounded-tp border-l-4 text-tp-base ${styles[intent]}`}>
+  {message}
+</div>
