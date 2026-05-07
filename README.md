@@ -2,9 +2,7 @@
 
 [![License](https://badgen.net/badge/license/MIT/blue)](./LICENSE)
 [![Skills](https://badgen.net/badge/skills/1/purple)](https://dkotama.github.io/skills)
-[![Platform](https://badgen.net/badge/platform/Claude%20Code/black?icon=terminal)](https://claude.ai)
 [![Stars](https://badgen.net/github/stars/dkotama/skills)](https://github.com/dkotama/skills/stargazers)
-[![Last Commit](https://badgen.net/github/last-commit/dkotama/skills)](https://github.com/dkotama/skills/commits/master)
 
 Curated Claude Code skills handcrafted by I Nyoman Darma Kotama.
 
