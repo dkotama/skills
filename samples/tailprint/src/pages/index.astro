@@ -1,6 +1,85 @@
 ---
 import Shell from '../layouts/Shell.astro';
+import StatBlock from '../components/ui/StatBlock.astro';
+import Card from '../components/ui/Card.astro';
+import Callout from '../components/ui/Callout.astro';
+import Badge from '../components/ui/Badge.astro';
+import Sparkline from '../components/ui/Sparkline.astro';
+import ProgressBar from '../components/ui/ProgressBar.astro';
+import { iotNodes } from '../data/iot-nodes';
+import { inventory } from '../data/inventory';
+import { invoices } from '../data/invoices';
+import { warehouseFloors } from '../data/warehouse';
+
+const onlineNodes = iotNodes.filter(n => n.status === 'online').length;
+const offlineNodes = iotNodes.filter(n => n.status === 'offline').length;
+const lowStock = inventory.filter(i => i.qty < i.reorderPoint).length;
+const overdueInvoices = invoices.filter(i => i.status === 'overdue').length;
+const totalAR = invoices.filter(i => i.status !== 'paid').reduce((s, i) => s + i.amount, 0);
+
+const sparkValues = [42, 58, 35, 67, 72, 55, 80, 65, 90, 78, 85, 92];
+const recentAlerts = iotNodes.filter(n => n.status !== 'online').slice(0, 6);
+
+const floorSummary = warehouseFloors.map(f => ({
+  label: `${f.warehouse} ${f.floor}`,
+  fillPct: Math.round(
+    f.zones.flatMap(z => z.bins).reduce((s, b) => s + b.fillPct, 0) /
+    (f.zones.length * 8)
+  ),
+}));
 ---
 <Shell title="Dashboard" activePage="dashboard">
-  <p class="text-tp-base text-tp-gray">Dashboard coming soon.</p>
+  {offlineNodes > 0 && (
+    <Callout
+      intent="danger"
+      message={`${offlineNodes} IoT node${offlineNodes > 1 ? 's' : ''} offline — check sensor status`}
+    />
+  )}
+
+  <div class="grid grid-cols-4 gap-3 mt-3">
+    <StatBlock label="Nodes Online" value={String(onlineNodes)} delta="of 48 total" trend="up" />
+    <StatBlock label="Low Stock SKUs" value={String(lowStock)} delta="need reorder" trend="down" />
+    <StatBlock label="Overdue Invoices" value={String(overdueInvoices)} delta="require follow-up" trend="down" />
+    <StatBlock label="Open AR" value={`$${totalAR.toLocaleString()}`} delta="outstanding" trend="up" />
+  </div>
+
+  <div class="grid grid-cols-3 gap-3 mt-3">
+    <Card label="Network Activity (12h)">
+      <Sparkline values={sparkValues} />
+      <div class="text-tp-xs text-tp-gray mt-2">
+        Packets/min — avg {Math.round(sparkValues.reduce((a, b) => a + b) / sparkValues.length)}
+      </div>
+    </Card>
+
+    <Card label="Warehouse Fill">
+      <div class="space-y-2">
+        {floorSummary.map(f => (
+          <div>
+            <div class="flex justify-between text-tp-xs text-tp-gray mb-0.5">
+              <span>{f.label}</span>
+              <span class="font-tp-mono tabular-nums">{f.fillPct}%</span>
+            </div>
+            <ProgressBar
+              value={f.fillPct}
+              intent={f.fillPct > 85 ? 'danger' : f.fillPct > 70 ? 'warning' : 'default'}
+            />
+          </div>
+        ))}
+      </div>
+    </Card>
+
+    <Card label="Recent Alerts">
+      <div class="space-y-1.5">
+        {recentAlerts.map(node => (
+          <div class="flex items-center justify-between">
+            <span class="text-tp-sm text-tp-dark font-tp-mono">{node.id}</span>
+            <div class="flex items-center gap-2">
+              <span class="text-tp-xs text-tp-gray">{node.warehouse}</span>
+              <Badge status={node.status} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </Card>
+  </div>
 </Shell>
