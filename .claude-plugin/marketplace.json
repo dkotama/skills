@@ -14,7 +14,7 @@
     {
       "name": "tailprint-builder",
       "description": "Build high-density, professional UI pages using the TailPrint design system — Blueprint aesthetic via Tailwind CSS. No BlueprintJS dependency.",
-      "source": "skills/tailprint-builder",
+      "source": "./",
       "category": "frontend"
     }
   ]
