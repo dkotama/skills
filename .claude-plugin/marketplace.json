@@ -1,23 +1,21 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "dkotama-skills",
-  "display_name": "dkotama/skills",
-  "description": "Curated Claude Code skills handcrafted by I Nyoman Darma Kotama",
-  "author": "dkotama",
-  "url": "https://github.com/dkotama/skills",
-  "homepage": "https://dkotama.github.io/skills",
+  "owner": {
+    "name": "I Nyoman Darma Kotama",
+    "url": "https://github.com/dkotama"
+  },
+  "metadata": {
+    "description": "Curated Claude Code skills handcrafted by I Nyoman Darma Kotama",
+    "version": "1.0.0",
+    "repository": "https://github.com/dkotama/skills"
+  },
   "plugins": [
     {
       "name": "tailprint-builder",
-      "display_name": "TailPrint Builder",
       "description": "Build high-density, professional UI pages using the TailPrint design system — Blueprint aesthetic via Tailwind CSS. No BlueprintJS dependency.",
-      "version": "1.0.0",
-      "released": "2026-05-07",
-      "category": "frontend",
-      "tags": ["tailwind", "design-system", "blueprint", "professional-ui", "erp", "iot"],
-      "invoke": "/tailprint-builder:tailprint-builder",
-      "install": "/plugin install tailprint-builder@dkotama-skills",
-      "docs": "https://dkotama.github.io/skills/plugins/tailprint-builder",
-      "source": "skills/tailprint-builder/tailprint-builder.md"
+      "source": "skills/tailprint-builder",
+      "category": "frontend"
     }
   ]
 }
