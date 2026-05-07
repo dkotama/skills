@@ -1,6 +1,7 @@
 ---
 import Shell from '../layouts/Shell.astro';
 import Table from '../components/ui/Table.astro';
+import type { ColumnDef } from '../components/ui/Table.astro';
 import Badge from '../components/ui/Badge.astro';
 import Callout from '../components/ui/Callout.astro';
 import Toggle from '../components/ui/Toggle.astro';
@@ -8,7 +9,18 @@ import ProgressBar from '../components/ui/ProgressBar.astro';
 import { iotNodes } from '../data/iot-nodes';
 
 const offlineCount = iotNodes.filter(n => n.status === 'offline').length;
-const columns = ['Node ID','Warehouse','Type','Status','Temp °C','Humidity %','Vibration g','Power W','Last Seen'];
+
+const columns: (string | ColumnDef)[] = [
+  { label: 'Node ID',      sortType: 'string' },
+  'Warehouse',
+  'Type',
+  'Status',
+  { label: 'Temp °C',     sortType: 'number' },
+  { label: 'Humidity %',  sortType: 'number' },
+  { label: 'Vibration g', sortType: 'number' },
+  { label: 'Power W',     sortType: 'number' },
+  'Last Seen',
+];
 ---
 <Shell title="IoT / Node Monitor" activePage="iot">
   {offlineCount > 0 && (
@@ -23,23 +35,28 @@ const columns = ['Node ID','Warehouse','Type','Status','Temp °C','Humidity %','
     </div>
   </div>
 
-  <Table columns={columns}>
+  <Table id="iot-table" columns={columns}>
     {iotNodes.map(node => (
       <tr class="hover:bg-[#f0f4f7]">
-        <td class="px-2 py-1 font-tp-mono tabular-nums text-tp-dark border-r border-tp-border">{node.id}</td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums text-tp-dark border-r border-tp-border" data-sort-value={node.id}>{node.id}</td>
         <td class="px-2 py-1 text-tp-gray border-r border-tp-border">{node.warehouse}</td>
         <td class="px-2 py-1 text-tp-gray border-r border-tp-border capitalize">{node.sensorType}</td>
         <td class="px-2 py-1 border-r border-tp-border">
           <Badge status={node.status} />
         </td>
-        <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right">{node.temperature}</td>
-        <td class="px-2 py-1 border-r border-tp-border w-24">
+        <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right" data-sort-value={node.temperature}>{node.temperature}</td>
+        <td class="px-2 py-1 border-r border-tp-border w-24" data-sort-value={node.humidity}>
           <ProgressBar value={node.humidity} intent={node.humidity > 80 ? 'warning' : 'default'} />
         </td>
-        <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right">{node.vibration.toFixed(2)}</td>
-        <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right">{node.powerDraw}</td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right" data-sort-value={node.vibration}>{node.vibration.toFixed(2)}</td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums border-r border-tp-border text-right" data-sort-value={node.powerDraw}>{node.powerDraw}</td>
         <td class="px-2 py-1 font-tp-mono text-tp-gray text-tp-xs">{node.lastSeen}</td>
       </tr>
     ))}
   </Table>
 </Shell>
+
+<script>
+  import { initSortableTable } from '../lib/sort-table';
+  initSortableTable('iot-table');
+</script>

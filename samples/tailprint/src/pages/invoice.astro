@@ -1,6 +1,7 @@
 ---
 import Shell from '../layouts/Shell.astro';
 import Table from '../components/ui/Table.astro';
+import type { ColumnDef } from '../components/ui/Table.astro';
 import Badge from '../components/ui/Badge.astro';
 import Tabs from '../components/ui/Tabs.astro';
 import Modal from '../components/ui/Modal.astro';
@@ -8,13 +9,21 @@ import Button from '../components/ui/Button.astro';
 import { invoices } from '../data/invoices';
 
 const tabs = [
-  { label: 'All', href: '/invoice' },
+  { label: 'All',     href: '/invoice' },
   { label: 'Overdue', href: '/invoice' },
   { label: 'Pending', href: '/invoice' },
-  { label: 'Paid', href: '/invoice' },
+  { label: 'Paid',    href: '/invoice' },
 ];
 
-const columns = ['Invoice #','Client','Issued','Due Date','Amount','Status',''];
+const columns: (string | ColumnDef)[] = [
+  { label: 'Invoice #', sortType: 'string' },
+  'Client',
+  'Issued',
+  { label: 'Due Date', sortType: 'date' },
+  { label: 'Amount',   sortType: 'number' },
+  'Status',
+  '',
+];
 
 const statusBadge: Record<string, 'online' | 'offline' | 'warning' | 'error'> = {
   paid: 'online',
@@ -37,16 +46,16 @@ const totalOverdue = invoices
 
   <Tabs tabs={tabs} active="All" />
 
-  <Table columns={columns}>
+  <Table id="invoice-table" columns={columns}>
     {invoices.map(inv => (
       <tr class="hover:bg-[#f0f4f7]">
-        <td class="px-2 py-1 font-tp-mono tabular-nums text-tp-dark border-r border-tp-border">{inv.id}</td>
+        <td class="px-2 py-1 font-tp-mono tabular-nums text-tp-dark border-r border-tp-border" data-sort-value={inv.id}>{inv.id}</td>
         <td class="px-2 py-1 text-tp-dark border-r border-tp-border">{inv.client}</td>
         <td class="px-2 py-1 font-tp-mono text-tp-gray border-r border-tp-border">{inv.issuedDate}</td>
-        <td class={`px-2 py-1 font-tp-mono border-r border-tp-border ${inv.status === 'overdue' ? 'text-tp-danger font-semibold' : 'text-tp-gray'}`}>
+        <td class={`px-2 py-1 font-tp-mono border-r border-tp-border ${inv.status === 'overdue' ? 'text-tp-danger font-semibold' : 'text-tp-gray'}`} data-sort-value={inv.dueDate}>
           {inv.dueDate}
         </td>
-        <td class="px-2 py-1 font-tp-mono tabular-nums text-right border-r border-tp-border text-tp-dark">
+        <td class="px-2 py-1 font-tp-mono tabular-nums text-right border-r border-tp-border text-tp-dark" data-sort-value={inv.amount}>
           ${inv.amount.toLocaleString()}
         </td>
         <td class="px-2 py-1 border-r border-tp-border">
@@ -91,3 +100,8 @@ const totalOverdue = invoices
     ))}
   </Table>
 </Shell>
+
+<script>
+  import { initSortableTable } from '../lib/sort-table';
+  initSortableTable('invoice-table');
+</script>
