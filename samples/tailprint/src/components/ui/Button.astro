@@ -1,0 +1,14 @@
+---
+interface Props {
+  intent?: 'primary' | 'default';
+  label: string;
+  type?: 'button' | 'submit';
+}
+const { intent = 'default', label, type = 'button' } = Astro.props;
+const cls = intent === 'primary'
+  ? 'bg-tp-primary text-white active:shadow-tp-active'
+  : 'bg-white text-tp-dark active:bg-[#d8e1e8] active:shadow-tp-active';
+---
+<button type={type} class={`h-7 px-3 rounded-tp shadow-tp-button text-tp-base font-medium ${cls}`}>
+  {label}
+</button>
