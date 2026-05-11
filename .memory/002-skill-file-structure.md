@@ -10,12 +10,14 @@ A self-contained single file bloats as the skill grows. Companion files let Clau
 
 ```
 skills/<skill-name>/
-├── <skill-name>.md        ← entry: core rules + companion index table (~50 lines max)
+├── SKILL.md               ← entry: core rules + companion index table (~50 lines max)
 ├── config/
 │   └── *.md               ← framework/tool config, design tokens, env setup
 └── recipes/
     └── *.md               ← interaction patterns, component markup, library integrations
 ```
+
+> **Convention**: entry file MUST be named `SKILL.md` (not `<skill-name>.md`). The `/plugins` browser and skill loader discover skills by looking for `SKILL.md`. All other plugins (superpowers, caveman, marketing-skills) follow this convention.
 
 ## Entry File Format
 
@@ -55,8 +57,7 @@ description: <trigger phrases>
 
 ## Real Example
 
-`tailprint-builder` v1.2.0:
-- Entry: 55 lines
+`tailprint-builder` v1.2.0 — entry: `skills/tailprint-builder/SKILL.md` (55 lines)
 - `config/tailwind.md` — Tailwind config + CSS tokens + anti-flash script
 - `recipes/components.md` — all UI component markup
 - `recipes/search-filter.md` — search + dropdown filter wiring
