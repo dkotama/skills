@@ -19,7 +19,7 @@
     },
     {
       "name": "monorepo-init",
-      "description": "Bootstrap a new project with full scaffold: CLAUDE.md, .memory/, docs/, PRD.md, and optional TASK.md. Run once at project creation. Idempotent.",
+      "description": "Bootstrap a monorepo with full scaffold: CLAUDE.md, DECISIONS.md, PRD.md, .memory/, docs/. Scaffolds Hello World per platform with unit tests (≥80% coverage) and e2e tests. Idempotent.",
       "source": "./",
       "category": "workflow"
     }
