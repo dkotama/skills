@@ -136,17 +136,17 @@
     </div>
 
     <p>Invoke the skill directly with:</p>
-    <div class="invoke-command">/monorepo-init:monorepo-init</div>
+    <div class="invoke-command">/dkotama-skills:monorepo-init</div>
 
-    <p>The skill interviews you first, then generates all scaffold files in order with idempotency checks at each step.</p>
+    <p>The skill runs in 3 phases: <strong>Plan</strong> (2–3 questions, smart defaults inferred from stack), <strong>Review</strong> (full scaffold plan shown, correct via free text), <strong>Generate</strong> (files + Hello World + tests, ≥ 80% coverage).</p>
   </div>
 
   <!-- Design docs -->
   <div class="content-section">
     <h2>Design Docs</h2>
-    <p>The full Monorepo Init specification — interview flow, decision tree, idempotency rules, and all file templates — is embedded directly in the skill companion files. When you invoke the skill, only the files needed for the current step are loaded into context.</p>
+    <p>The full Monorepo Init specification — 3-phase flow, stack inference rules, Hello World scaffolds per stack, file templates, and idempotency rules — is split across companion files. Only files needed for the current phase load into context.</p>
     <p>
-      <a href="https://github.com/dkotama/skills/blob/master/skills/monorepo-init/monorepo-init.md" target="_blank" rel="noopener" style="color:var(--tp-primary)">View skill source on GitHub →</a>
+      <a href="https://github.com/dkotama/skills/blob/master/skills/monorepo-init/SKILL.md" target="_blank" rel="noopener" style="color:var(--tp-primary)">View skill source on GitHub →</a>
     </p>
   </div>
 
