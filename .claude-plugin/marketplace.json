@@ -7,7 +7,7 @@
   },
   "metadata": {
     "description": "Curated Claude Code skills handcrafted by I Nyoman Darma Kotama",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "repository": "https://github.com/dkotama/skills"
   },
   "plugins": [
@@ -16,6 +16,12 @@
       "description": "Build high-density, professional UI pages using the TailPrint design system — Blueprint aesthetic via Tailwind CSS. No BlueprintJS dependency.",
       "source": "./",
       "category": "frontend"
+    },
+    {
+      "name": "monorepo-init",
+      "description": "Bootstrap a new project with full scaffold: CLAUDE.md, .memory/, docs/, PRD.md, and optional TASK.md. Run once at project creation. Idempotent.",
+      "source": "./",
+      "category": "workflow"
     }
   ]
 }

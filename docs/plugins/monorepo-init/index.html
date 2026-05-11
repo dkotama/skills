@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monorepo Init — Project Scaffold for Claude Code | dkotama/skills</title>
+  <meta name="description" content="Bootstrap a new project with CLAUDE.md, .memory/, docs/, PRD.md, and optional TASK.md in one command. Idempotent. Free Claude Code &amp; OpenCode skill." />
+  <meta name="keywords" content="monorepo init, claude code scaffold, project bootstrap, CLAUDE.md generator, claude code workflow, project structure claude, claude code skill, opencode skill, project init skill" />
+  <meta name="author" content="I Nyoman Darma Kotama" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://dkotama.github.io/skills/plugins/monorepo-init/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://dkotama.github.io/skills/plugins/monorepo-init/" />
+  <meta property="og:title" content="Monorepo Init — Project Scaffold for Claude Code" />
+  <meta property="og:description" content="Bootstrap a new project with CLAUDE.md, .memory/, docs/, PRD.md, and optional TASK.md in one command. Idempotent." />
+  <meta property="og:site_name" content="dkotama/skills" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Monorepo Init — Project Scaffold for Claude Code" />
+  <meta name="twitter:description" content="Bootstrap CLAUDE.md, .memory/, docs/, PRD.md in one command. Idempotent project scaffold skill for Claude Code." />
+
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="../../" class="nav-brand">
+    <img src="../../assets/logo.svg" alt="dkotama/skills" height="20" style="vertical-align:middle;margin-right:4px" />
+  </a>
+  <a href="../../">Home</a>
+  <div class="nav-spacer"></div>
+  <a href="https://github.com/dkotama/skills" class="nav-github" target="_blank" rel="noopener">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="rgba(245,248,250,0.65)">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+    </svg>
+    GitHub
+  </a>
+</nav>
+
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="../../">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>Monorepo Init</span>
+  </div>
+
+  <!-- Plugin hero -->
+  <div class="plugin-hero">
+    <h1>Monorepo Init</h1>
+    <div class="plugin-meta">
+      <span class="version-badge">v0.0.1</span>
+      <span class="badge badge-workflow">Workflow</span>
+    </div>
+    <p class="plugin-tagline">Bootstrap a new project with full scaffold — <code class="inline">CLAUDE.md</code>, <code class="inline">.memory/</code>, <code class="inline">docs/</code>, <code class="inline">PRD.md</code>, and optional <code class="inline">TASK.md</code>. Run once at project creation. Idempotent.</p>
+
+    <div class="install-box">
+      <div class="box-label">Install</div>
+      <div class="code-block">
+        <code>/plugin install monorepo-init@dkotama-skills</code>
+        <button class="copy-btn" onclick="copyCode(this, '/plugin install monorepo-init@dkotama-skills')">Copy</button>
+      </div>
+      <p class="prereq-note">
+        Requires marketplace to be added first:
+        <code style="color:rgba(245,248,250,0.55);font-family:'IBM Plex Mono',monospace;font-size:11px">
+          /plugin marketplace add dkotama/skills
+        </code>
+        — <a href="../../#getting-started">setup guide</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- What it does -->
+  <div class="content-section">
+    <h2>What It Does</h2>
+    <p>Monorepo Init runs an interview, then writes a complete project scaffold in one session. No manual copy-pasting of boilerplate, no forgetting the memory files.</p>
+    <ul>
+      <li>Interviews you on project name, platforms, tech stack, branches, and first task before writing anything</li>
+      <li>Writes <code class="inline">PRD.md</code> from your answers — overview, platform table, architecture, goals</li>
+      <li>Writes <code class="inline">CLAUDE.md</code> with git workflow, behavioral guidelines, memory organization, and docs structure tailored to your platforms</li>
+      <li>Creates root <code class="inline">.memory/000-how-to-memory.md</code> and one per platform folder</li>
+      <li>Creates <code class="inline">docs/README.md</code> as the flat docs index with naming conventions</li>
+      <li>Branches on superpowers: creates <code class="inline">docs/SPEC_*.md</code> (for superpowers users) or <code class="inline">TASK.md</code> (without) for your first task</li>
+      <li>Idempotent — memory files are never overwritten; prompts before touching <code class="inline">CLAUDE.md</code>, <code class="inline">PRD.md</code>, <code class="inline">TASK.md</code></li>
+      <li>Ends with a verification script and the final <code class="inline">git commit</code> command</li>
+    </ul>
+  </div>
+
+  <!-- Output structure -->
+  <div class="content-section">
+    <h2>Output Structure</h2>
+    <pre style="background:var(--tp-surface);border:1px solid var(--tp-border);border-radius:var(--tp-radius);padding:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;overflow-x:auto"><span style="color:var(--tp-primary)">&lt;project-root&gt;/</span>
+├── CLAUDE.md
+├── PRD.md                             ← written from interview
+├── TASK.md                            ← only if NOT using superpowers
+├── .memory/
+│   └── 000-how-to-memory.md
+├── docs/
+│   ├── README.md
+│   └── SPEC_&lt;SCOPE&gt;_&lt;date&gt;_&lt;slug&gt;.md ← only if using superpowers
+└── &lt;platform&gt;/
+    └── .memory/
+        └── 000-how-to-memory.md</pre>
+  </div>
+
+  <!-- When to use -->
+  <div class="content-section">
+    <h2>When to Use</h2>
+    <ul>
+      <li>Starting a new monorepo with multiple platforms (API + frontend, mobile + backend, etc.)</li>
+      <li>Any new project that will use Claude Code as the primary coding assistant</li>
+      <li>When you want consistent CLAUDE.md, memory, and docs structure across projects without writing it from scratch each time</li>
+      <li>Re-running on an existing project to fill in missing scaffold files without overwriting existing ones</li>
+    </ul>
+  </div>
+
+  <!-- How to use -->
+  <div class="content-section">
+    <h2>How to Use</h2>
+    <p>Invoke the skill at project creation. It will ask 6 questions, then write all files. Example prompts:</p>
+
+    <div class="usage-example">
+      "Init this monorepo — it's a Go API + Next.js frontend called OrderFlow."
+    </div>
+
+    <div class="usage-example">
+      "Bootstrap project structure. I have api/, fe/, and admin/ folders. We use superpowers skills."
+    </div>
+
+    <div class="usage-example">
+      "Create CLAUDE.md and memory for this project. Main branch is main, staging is develop."
+    </div>
+
+    <p>Invoke the skill directly with:</p>
+    <div class="invoke-command">/monorepo-init:monorepo-init</div>
+
+    <p>The skill interviews you first, then generates all scaffold files in order with idempotency checks at each step.</p>
+  </div>
+
+  <!-- Design docs -->
+  <div class="content-section">
+    <h2>Design Docs</h2>
+    <p>The full Monorepo Init specification — interview flow, decision tree, idempotency rules, and all file templates — is embedded directly in the skill companion files. When you invoke the skill, only the files needed for the current step are loaded into context.</p>
+    <p>
+      <a href="https://github.com/dkotama/skills/blob/master/skills/monorepo-init/monorepo-init.md" target="_blank" rel="noopener" style="color:var(--tp-primary)">View skill source on GitHub →</a>
+    </p>
+  </div>
+
+  <!-- Source & changelog -->
+  <div class="content-section">
+    <h2>Source &amp; Changelog</h2>
+    <p>
+      Skill source:
+      <a href="https://github.com/dkotama/skills/tree/master/skills/monorepo-init" style="color:var(--tp-primary)">skills/monorepo-init/</a>
+    </p>
+
+    <table class="version-table">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Date</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0.0.1</td>
+          <td>2026-05-11</td>
+          <td style="font-family:'IBM Plex Sans',sans-serif;font-size:12px">Initial release — interview flow, 6 file templates, superpowers branch, idempotency rules</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span>© 2026 I Nyoman Darma Kotama · Last updated 2026-05-11</span>
+      <div class="footer-links">
+        <a href="../../">← All Plugins</a>
+        <a href="https://github.com/dkotama/skills" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/dkotama/skills/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function copyCode(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

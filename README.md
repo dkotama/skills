@@ -1,12 +1,12 @@
 # dkotama/skills
 
 [![License](https://badgen.net/badge/license/MIT/blue)](./LICENSE)
-[![Skills](https://badgen.net/badge/skills/1/purple)](https://dkotama.github.io/skills)
+[![Skills](https://badgen.net/badge/skills/2/purple)](https://dkotama.github.io/skills)
 [![Stars](https://badgen.net/github/stars/dkotama/skills)](https://github.com/dkotama/skills/stargazers)
 
 Curated skills for **Claude Code** and **OpenCode** — handcrafted by I Nyoman Darma Kotama.
 
-Skills are self-contained agent instructions that load into your AI coding assistant's context. Currently focused on frontend UI systems, starting with a **Tailwind CSS Blueprint aesthetic** design system for professional admin and ERP interfaces.
+Skills are self-contained agent instructions that load into your AI coding assistant's context. Covers frontend UI systems and project workflow tooling.
 
 **Showcase site:** https://dkotama.github.io/skills
 
@@ -47,6 +47,22 @@ Details: https://dkotama.github.io/skills/plugins/tailprint-builder
 
 ---
 
+### monorepo-init
+
+**Bootstrap a new project with full scaffold** — interview-driven, idempotent.
+
+Runs a 6-question interview, then writes `CLAUDE.md`, `.memory/`, `docs/README.md`, `PRD.md`, and either `TASK.md` or a `docs/SPEC_*.md` (if using superpowers skills). Writes per-platform memory folders. Safe to re-run — never overwrites memory files, prompts before touching `CLAUDE.md` or `PRD.md`.
+
+```
+/plugin install monorepo-init@dkotama-skills
+```
+
+Invoke: `/monorepo-init:monorepo-init`
+
+Details: https://dkotama.github.io/skills/plugins/monorepo-init
+
+---
+
 ## Repo Structure
 
 ```
@@ -55,7 +71,13 @@ Details: https://dkotama.github.io/skills/plugins/tailprint-builder
 
 skills/
   tailprint-builder/
-    tailprint-builder.md    skill source (self-contained)
+    tailprint-builder.md    skill entry
+    config/                 tailwind config, design tokens
+    recipes/                component markup, chart patterns, filters
+  monorepo-init/
+    monorepo-init.md        skill entry
+    config/                 file templates
+    recipes/                interview flow, execution steps
 
 samples/
   tailprint/                Astro sample app
@@ -69,6 +91,8 @@ docs/                       GitHub Pages root
     tailprint-builder/
       index.html            plugin detail page
       preview/              screenshots
+    monorepo-init/
+      index.html            plugin detail page
 ```
 
 ---
