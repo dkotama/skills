@@ -1,174 +1,119 @@
-# Execution — Steps 2–11
+# Phase 3 — Generate
 
-Use templates from `skills/monorepo-init/config/templates.md`. Fill all `<PLACEHOLDERS>` from interview variables before writing. For Hello World scaffolds, read `skills/monorepo-init/recipes/hello-world.md`.
-
----
-
-## Step 2 — Write `DECISIONS.md`
-
-Use template: `## DECISIONS.md Template` from `config/templates.md`.
-
-Fill from all Phase 4–6 interview answers. This file is the single source of truth for all tech choices.
+Only runs after user approves the Phase 2 review summary. Write all files in parallel where possible.
 
 ---
 
-## Step 3 — Write `PRD.md`
+## A — Write Doc + Memory Files
 
-Use template: `## PRD.md Template` from `config/templates.md`.
+Write simultaneously:
 
-Fill:
-- `<PROJECT_NAME>` → `PROJECT_NAME`
-- Platform table → one row per `PLATFORMS[]` entry with its stack
-- Architecture → infer from `TECH_STACK` (e.g. REST API if api + web present, shared DB if multiple backends share one DB)
+1. **`DECISIONS.md`** — use template from `config/templates.md`. Fill from all inferred variables.
+2. **`PRD.md`** — use template. Fill `PROJECT_NAME`, platform table, architecture note.
+3. **`CLAUDE.md`** — use template. Fill platform list, branch, memory lines.
+4. **`.memory/000-how-to-memory.md`** — skip silently if exists.
+5. **`<platform>/.memory/000-how-to-memory.md`** × N — skip silently if exists.
+6. **`docs/README.md`** — skip if non-empty.
+7. **`docs/SPEC_<scope>_<date>_scaffold.md`** — if `USING_SUPERPOWERS=true`.
+8. **`TASK.md`** — if `USING_SUPERPOWERS=false`. Prompt before overwrite.
 
----
+Idempotency:
 
-## Step 4a — Write `docs/SPEC_<SCOPE>_<YYYY-MM-DD>_<slug>.md` (if `USING_SUPERPOWERS=true`)
-
-Date = today's date. Scope = platform(s) touched. Slug = kebab-case title from `FIRST_TASK`.
-
-Use template: `## SPEC Template` from `config/templates.md`.
-
-Fill from `FIRST_TASK`.
-
----
-
-## Step 4b — Write `TASK.md` (if `USING_SUPERPOWERS=false`)
-
-Idempotency: prompt user before overwriting.
-
-Use template: `## TASK.md Template` from `config/templates.md`.
-
-Fill from `FIRST_TASK`.
+| File | If exists |
+|------|-----------|
+| `CLAUDE.md`, `PRD.md`, `DECISIONS.md`, `TASK.md` | Prompt: overwrite or skip |
+| `.memory/000*` | Always skip silently |
+| `docs/README.md` | Skip if non-empty |
 
 ---
 
-## Step 5 — Write `CLAUDE.md`
-
-Idempotency: prompt user before overwriting.
-
-Use template: `## CLAUDE.md Template` from `config/templates.md`.
-
-Fill:
-- `<PROJECT_NAME>` → `PROJECT_NAME`
-- `<PLATFORM_LIST>` → comma-separated list e.g. `"API (api/), Frontend (web/), CMS (cms/)"`
-- `<MAIN_BRANCH>` → `MAIN_BRANCH`
-- `<STAGING_BRANCH>` → `STAGING_BRANCH` (if not provided, remove the `nor <STAGING_BRANCH>` clause)
-- `<PLATFORM_MEMORY_LINES>` → one bullet per platform:
-  ```
-  - **<platform>-specific?** → `/<platform>/.memory/001-*.md`
-  ```
-
----
-
-## Step 6 — Write Root `.memory/000-how-to-memory.md`
-
-Idempotency: **always skip silently** if file exists.
-
-Use template: `## .memory/000 Template` from `config/templates.md`.
-
-No placeholders — write exact content.
-
----
-
-## Step 7 — Write `<platform>/.memory/000-how-to-memory.md` × N
+## B — Scaffold Hello World + Tests Per Platform
 
 For each platform in `PLATFORMS[]`:
 
-Idempotency: **always skip silently** if file exists.
+1. Read `skills/monorepo-init/recipes/hello-world.md` → find section for `TECH_STACK[platform]`.
+2. Create platform folder if missing.
+3. Write Hello World source file.
+4. Write unit test file.
+5. Write e2e test file + config.
+6. Write minimal `package.json` / `go.mod` / `pubspec.yaml` — runnable, not opinionated.
+7. Write linter config from `LINTER[platform]`.
+8. Write test runner config.
 
-Use template: `## platform .memory/000 Template` from `config/templates.md`.
-
-Replace `<PLATFORM_NAME>` with the platform folder name.
-
----
-
-## Step 8 — Write `docs/README.md`
-
-Idempotency: skip if file is non-empty.
-
-Use template: `## docs/README.md Template` from `config/templates.md`.
-
-Fill:
-- `<PROJECT_NAME>` → `PROJECT_NAME`
-- `<TECH_STACK_SUMMARY>` → one-line summary e.g. `"Next.js 15 · Strapi v5 · PostgreSQL"`
+Prompt before overwriting any existing Hello World or test files.
 
 ---
 
-## Step 9 — Scaffold Hello World + Tests Per Platform
+## C — Root Config
 
-For **each** platform in `PLATFORMS[]`:
+Write `lefthook.yml` at repo root:
 
-1. Read `skills/monorepo-init/recipes/hello-world.md` and find the section matching `TECH_STACK[platform]`.
-2. Write the Hello World source file.
-3. Write the unit test file.
-4. Write the e2e test file / config.
-5. Write tooling config files:
-   - `package.json` / `go.mod` / `pubspec.yaml` — minimal, runnable
-   - Linter config (`.biomerc.json` / `.eslintrc.json` / `ruff.toml` / etc.) from `TOOLING[platform].linter`
-   - Test runner config (`vitest.config.ts` / `jest.config.ts` / `pytest.ini` / etc.)
-   - Playwright config (`playwright.config.ts`) if e2e = Playwright
-6. Install dependencies (run the package manager from `TOOLING[platform].pkg_manager`):
-   ```bash
-   cd <platform> && <pkg_manager> install
-   ```
-
-> If platform folder doesn't exist yet, create it first.
-
-**Lefthook** — after all platforms are scaffolded, write root-level `lefthook.yml`:
 ```yaml
 pre-commit:
   commands:
     lint:
-      run: <per-platform lint commands>
+      run: echo "lint: configure per-platform commands here"
 commit-msg:
   commands:
     conventional:
-      run: grep -qE '^(feat|fix|chore|docs|refactor|test|style|ci|perf)' {1}
+      run: grep -qE "^(feat|fix|chore|docs|refactor|test|style|ci|perf)" {1}
 ```
 
 ---
 
-## Step 10 — Run Tests + Verify Coverage
+## D — Install Dependencies
 
-For **each** platform in `PLATFORMS[]`, run the appropriate commands:
+For each platform:
 
-| Stack | Unit test command | Coverage flag | E2E command |
-|-------|------------------|---------------|-------------|
-| Next.js (Vitest) | `pnpm test run` | `--coverage` | `pnpm exec playwright test` |
-| Express/NestJS (Jest) | `pnpm test` | `--coverage` | `pnpm exec playwright test` |
-| FastAPI (pytest) | `uv run pytest` | `--cov --cov-report=term` | `uv run pytest -m e2e` |
-| Go + Gin | `go test ./... -coverprofile=c.out` | `go tool cover -func c.out` | same runner |
-| Flutter | `flutter test --coverage` | built-in | `flutter test integration_test/` |
-| React Native | `pnpm test --coverage` | built-in | `pnpm detox test` |
-| Strapi v5 | `pnpm test --coverage` | built-in | `pnpm exec playwright test` |
+```bash
+cd <platform> && <PKG_MANAGER[platform]> install
+```
 
-**Pass criteria:**
-
-- Unit: exit code 0
-- Coverage: ≥ 80% lines/statements reported
-- E2E: exit code 0
-
-If any check fails: diagnose, fix, re-run. Do not proceed to Step 11 until all pass.
+Skip for Go (no install step) and Flutter (user runs `flutter pub get`).
 
 ---
 
-## Step 11 — Verify All Files + Commit Command
+## E — Run Tests + Verify Coverage
 
-Run verification:
+For each platform, run unit tests + check coverage:
+
+| Stack | Command | Coverage check |
+|-------|---------|----------------|
+| Next.js / Nuxt / SvelteKit | `pnpm test run --coverage` | Vitest reports threshold |
+| Express / NestJS | `pnpm test --coverage` | Jest reports threshold |
+| FastAPI | `uv run pytest --cov --cov-report=term` | fail_under = 80 in pyproject.toml |
+| Go + Gin | `go test ./... -coverprofile=c.out && go tool cover -func c.out` | Manual check ≥ 80% |
+| Flutter | `flutter test --coverage` | Check coverage/lcov.info |
+| React Native | `pnpm test --coverage` | Jest threshold |
+| Strapi | `pnpm test --coverage` | Jest threshold |
+
+Then run e2e:
+
+| Stack | Command |
+|-------|---------|
+| Playwright | `pnpm exec playwright test` |
+| integration_test (Flutter) | `flutter test integration_test/` |
+| Detox (RN) | `pnpm detox test` |
+| Go httptest | `go test ./e2e/...` (server must be running) |
+
+If any check fails → diagnose root cause → fix → re-run. Do not proceed until all pass.
+
+---
+
+## F — Verify + Commit
 
 ```bash
-test -f DECISIONS.md                       && echo "OK DECISIONS.md"          || echo "MISSING DECISIONS.md"
-test -f CLAUDE.md                          && echo "OK CLAUDE.md"             || echo "MISSING CLAUDE.md"
-test -f PRD.md                             && echo "OK PRD.md"               || echo "MISSING PRD.md"
-test -f .memory/000-how-to-memory.md       && echo "OK root memory"           || echo "MISSING root memory"
-test -f docs/README.md                     && echo "OK docs/README.md"        || echo "MISSING docs/README.md"
+test -f DECISIONS.md                         && echo "OK" || echo "MISSING DECISIONS.md"
+test -f CLAUDE.md                            && echo "OK" || echo "MISSING CLAUDE.md"
+test -f PRD.md                               && echo "OK" || echo "MISSING PRD.md"
+test -f .memory/000-how-to-memory.md         && echo "OK" || echo "MISSING root memory"
+test -f docs/README.md                       && echo "OK" || echo "MISSING docs/README.md"
 for p in <PLATFORMS>; do
-  test -f "$p/.memory/000-how-to-memory.md" && echo "OK $p memory"  || echo "MISSING $p memory"
+  test -f "$p/.memory/000-how-to-memory.md"  && echo "OK $p memory" || echo "MISSING $p memory"
 done
 ```
 
-When all checks pass, output the commit command:
+When all pass, output:
 
 ```bash
 git add DECISIONS.md CLAUDE.md PRD.md .memory/ docs/ lefthook.yml
@@ -177,18 +122,3 @@ for p in <PLATFORMS>; do git add "$p/"; done
 # git add TASK.md
 git commit -m "chore: init project scaffold with hello world + tests"
 ```
-
----
-
-## Idempotency Rules
-
-| File | Behavior if exists |
-|------|--------------------|
-| `DECISIONS.md` | Prompt user: overwrite or skip |
-| `CLAUDE.md` | Prompt user: overwrite or skip |
-| `PRD.md` | Prompt user: overwrite or skip |
-| `TASK.md` | Prompt user: overwrite or skip |
-| `.memory/000-how-to-memory.md` | Always skip — never overwrite |
-| `docs/README.md` | Skip if non-empty |
-| `<platform>/.memory/000-how-to-memory.md` | Always skip — never overwrite |
-| `<platform>/` Hello World files | Prompt user: overwrite or skip |
