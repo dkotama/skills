@@ -48,6 +48,16 @@ description: <trigger phrases>
 - Component markup snippets → `recipes/components.md`
 - Each distinct interaction pattern → own file in `recipes/`
 
+## Plugin Namespace = plugin.json `name` field
+
+The `name` in `.claude-plugin/plugin.json` becomes the namespace prefix for **all skills** in that plugin.
+
+- `"name": "superpowers"` → `superpowers:brainstorming`, `superpowers:tdd`
+- `"name": "caveman"` → `caveman:caveman`, `caveman:caveman-commit`
+- `"name": "dkotama-skills"` → `dkotama-skills:tailprint-builder`, `dkotama-skills:monorepo-init`
+
+**One plugin.json per repo root.** All skills in that repo share the same namespace. To change the prefix, change `plugin.json.name` — syncing to cache takes effect without reinstall. Remote users need reinstall.
+
 ## Version Bumping (plugin.json only)
 
 - Add/split companion file → minor bump (1.1.0 → 1.2.0)
