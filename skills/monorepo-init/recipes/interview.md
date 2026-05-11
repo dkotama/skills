@@ -1,5 +1,7 @@
 # Interview — Step 1
 
+**This skill is self-contained. Do not delegate to `superpowers:brainstorming` or any other skill. Run this interview directly.**
+
 Ask all 6 questions before writing any file. Present them together in a single block.
 
 ## Questions

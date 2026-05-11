@@ -21,7 +21,11 @@ All templates for monorepo-init. Fill `<PLACEHOLDERS>` from interview variables 
 
 ## Architecture
 
-<How platforms communicate — REST, shared DB, event bus, etc.>
+**Platforms are isolated by default.** Each runs independently with its own deps and tooling.
+
+Cross-platform communication (if any): <REST endpoints, shared DB, event bus — or "None. Platforms are fully independent.">
+
+Shared infrastructure (if any): <CI pipeline, cloud provider, secrets manager — or "None.">
 
 ## Goals
 
@@ -115,6 +119,19 @@ All templates for monorepo-init. Fill `<PLACEHOLDERS>` from interview variables 
 5. Merge via PR, delete branch
 
 **Naming:** `feature/`, `bugfix/`, `hotfix/` prefixes
+
+---
+
+## Platform Isolation
+
+Each platform in this monorepo is **fully independent** by default:
+
+- Own `package.json` / `go.mod` / `pubspec.yaml` — no shared root deps
+- Own tooling config (`tsconfig`, `.eslintrc`, `prettier`, `tailwind.config`, etc.) — no shared root config
+- Own build / test / lint scripts — no cross-platform Makefile unless explicitly added
+- No shared `components/`, `utils/`, or `lib/` across platforms
+
+**Sharing is opt-in, not default.** If two platforms genuinely need to share something, document the decision in `.memory/` with the reason. When in doubt: duplicate, don't abstract across platforms.
 
 ---
 
@@ -276,5 +293,5 @@ _(Add entries here as design docs are created)_
 3. Verify each task with provided commands
 4. Commit after each task completes
 
-**Tool:** Use `superpowers:executing-plans` or `superpowers:subagent-driven-development` for autonomous implementation.
+**Tool:** Follow tasks in sequence. Verify each step before moving to the next. Commit after each task completes.
 ```
