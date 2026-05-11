@@ -1,6 +1,6 @@
 {
-  "name": "tailprint-builder",
-  "description": "Build high-density, professional UI pages using the TailPrint design system — Blueprint aesthetic via Tailwind CSS. No BlueprintJS dependency.",
+  "name": "dkotama-skills",
+  "description": "Curated Claude Code skills by I Nyoman Darma Kotama — TailPrint UI builder, monorepo scaffolder, and more.",
   "version": "2.0.0",
   "author": {
     "name": "I Nyoman Darma Kotama",
