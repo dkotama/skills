@@ -10,7 +10,7 @@ Bootstraps a new project with full scaffold: `CLAUDE.md`, `.memory/`, `docs/`, `
 ## Core Rules — Never Break
 
 - **Self-contained** — this skill owns its entire flow. Do NOT invoke `superpowers:brainstorming`, `superpowers:writing-plans`, or any other skill during execution. monorepo-init runs the interview itself.
-- **Interview first** — ask all 6 questions before writing any file
+- **Interview first, sequential** — use `AskUserQuestion` tool, one phase at a time (5 phases). Complete all phases before writing any file
 - **Platform isolation by default** — each platform folder is fully independent: own deps, own tooling config, own scripts. No shared root config, no shared components. Sharing is opt-in, not default.
 - **Idempotency** — skip `.memory/000-how-to-memory.md` silently if exists; prompt before overwriting `CLAUDE.md`, `PRD.md`, `TASK.md`; skip `docs/README.md` if non-empty
 - **Superpowers branch** — `USING_SUPERPOWERS` only controls what task file type gets created (`docs/SPEC_*.md` vs `TASK.md`). It does not change how this skill runs.
